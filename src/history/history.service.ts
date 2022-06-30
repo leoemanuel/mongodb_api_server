@@ -2,18 +2,20 @@ import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { InjectModel } from "@nestjs/mongoose";
 import { History, HistoryDocument } from "./schema/history.model";
+import { CreateHistoryDTO } from "./dto/history.dto";
 
 @Injectable()
 export class HistoryService {
 
     constructor(@InjectModel(History.name) private _model: Model<HistoryDocument>) {}
 
-    create():string {
-        return "Create History";
+    create(createHistoryDTO: CreateHistoryDTO): Promise<History> {
+        const newHistory = new this._model(createHistoryDTO);
+        return newHistory.save();
     }
 
-    getAll():string[] {
-        return ["History 1", "History 2", "History 3", "History 4"];
+    getAll(): Promise<History[]> {
+        return this._model.find().exec();
     }
     
     getById(id:string):string {
