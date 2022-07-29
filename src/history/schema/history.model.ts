@@ -6,8 +6,6 @@ export type HistoryDocument = History & Document;
 @Schema()
 export class History {
     @Prop()
-    _id: string;
-    @Prop()
     username: string;
     @Prop([Number])
     scores: number[];
